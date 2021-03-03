@@ -9,5 +9,3 @@ git pull origin ${GIT_SYNC_BRANCH}
 
 echo "INFO: Pushing local changes"
 git push origin ${GIT_SYNC_BRANCH}
-
-echo "gs" >> gs
