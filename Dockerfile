@@ -3,7 +3,7 @@ FROM alpine
 ENV ARCH=amd64
 
 RUN apk add --update --no-cache git openssh incron curl && \
-    apk add --update --no-cache --virtual build-deps libc-dev go gcc libgcc musl-dev
+    apk add --no-cache --virtual build-deps libc-dev go gcc libgcc musl-dev
 
 ENV HOME=/tmp
 ENV GIT_SYNC_ROOT=$HOME
@@ -13,7 +13,6 @@ RUN mkdir -p ${GIT_SYNC_ROOT}
 WORKDIR ${GIT_SYNC_ROOT}
 
 # ADD GIT LFS
-
 ENV LFS_VERSION=1.0.2
 RUN curl -sLO https://github.com/github/git-lfs/releases/download/v${LFS_VERSION}/git-lfs-linux-${ARCH}-${LFS_VERSION}.tar.gz && \
     tar xzf git-lfs-linux-${ARCH}-${LFS_VERSION}.tar.gz && \
@@ -34,7 +33,6 @@ RUN curl -sL -o webhook.tar.gz https://github.com/adnanh/webhook/archive/${WEBHO
     rm -rf webhook-${WEBHOOK_VERSION} && \
     rm -rf webhook.tar.gz && \
     apk del --purge build-deps
-
 
 ENV GIT_SYNC_BRANCH=master
 ENV GIT_SYNC_REPO=${GIT_SYNC_REPO:-}

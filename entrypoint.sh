@@ -50,7 +50,7 @@ incrontab -l
 cd ${GIT_SYNC_ROOT}
 
 # clone repo
-if [ ! -d $GIT_SYNC_DEST ]; then
+if [ ! -d $GIT_SYNC_DEST/.git ]; then
   echo "INFO: Cloning ${GIT_SYNC_BRANCH} into ${GIT_SYNC_DEST}"
   git clone -b ${GIT_SYNC_BRANCH} ${GIT_SYNC_REPO} ${GIT_SYNC_DEST}
 else
