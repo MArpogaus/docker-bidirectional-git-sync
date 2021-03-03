@@ -30,6 +30,5 @@ else
 fi
 
 echo "INFO: Registering cron job"
-echo "*/${GIT_SYNC_WAIT} * * * * sh -c 'export HOME=$HOME; git-sync'" | crontab -
-crontab -l
+echo "*/${GIT_SYNC_WAIT} * * * * sh -c 'export HOME=$HOME; export GIT_SYNC_ROOT=${GIT_SYNC_ROOT}; export GIT_SYNC_BRANCH=${GIT_SYNC_BRANCH};  git-sync'" | crontab -
 exec $@
