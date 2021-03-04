@@ -39,23 +39,15 @@ EOF
 EOF
   fi
 elif [ ${GIT_SYNC_CUSTOM_WEBHOOK} != true ]; then
-  echo "*/${GIT_SYNC_WAIT} * * * * sh -c '${CRON_CMD}'" | crontab -
+  echo "*/${GIT_SYNC_WAIT} * * * * sh -c ${CRON_CMD}" | crontab -
 fi
 
 echo "INFO: Registering incron job to push any changes"
-CRON_CMD="export HOME=$HOME GIT_SYNC_ROOT=${GIT_SYNC_ROOT} GIT_SYNC_BRANCH=${GIT_SYNC_BRANCH}; git-sync"
-echo "${GIT_SYNC_ROOT}/${GIT_SYNC_DEST}/.git IN_MODIFY,IN_NO_LOOP,IN_MOVE sh -c '${CRON_CMD}'" | incrontab -
+CRON_CMD="export HOME='${HOME}' GIT_SYNC_ROOT='${GIT_SYNC_ROOT}' GIT_SYNC_BRANCH='${GIT_SYNC_BRANCH}'; git-sync"
+echo "${GIT_SYNC_ROOT}/${GIT_SYNC_DEST}/.git IN_MODIFY,IN_NO_LOOP,IN_MOVE sh -c git-sync" | incrontab -
 incrontab -l
 
-cd ${GIT_SYNC_ROOT}
-
-# clone repo
-if [ ! -d $GIT_SYNC_DEST/.git ]; then
-  echo "INFO: Cloning ${GIT_SYNC_BRANCH} into ${GIT_SYNC_DEST}"
-  git clone -b ${GIT_SYNC_BRANCH} ${GIT_SYNC_REPO} ${GIT_SYNC_DEST}
-else
-  git-sync
-fi
+(git-sync) &
 
 # Possible Commands:
 # crond -f -d 0) &

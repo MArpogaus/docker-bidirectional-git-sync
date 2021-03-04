@@ -45,8 +45,10 @@ ENV GIT_SYNC_GITLAB_WEBHOOK=${GIT_SYNC_GITLAB_WEBHOOK:-nil}
 ENV GIT_SYNC_GITLAB_WEBHOOK_TOKEN=${GIT_SYNC_GITLAB_WEBHOOK_TOKEN:-nil}
 ENV GIT_SYNC_CUSTOM_WEBHOOK=${GIT_SYNC_CUSTOM_WEBHOOK:-nil}
 
+ENV LOCKFILE='/var/lock/git-sync.lock'
+RUN touch $LOCKFILE
+
 COPY entrypoint.sh /
 COPY git-sync.sh /usr/local/bin/git-sync
  
 ENTRYPOINT ["/entrypoint.sh"]
-CMD [""]
